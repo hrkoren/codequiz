@@ -1,0 +1,39 @@
+#quizbox {
+    position: absolute;
+    left: 30%;
+    top: 25%;
+    width: 550px;
+    height: 300px;
+    border: 1px dashed #2d9ae2
+}
+
+#startTime {
+    background-color: rgb(20, 114, 238);
+    margin-left: 33%;
+    padding: 15px 25px;
+    font-size: 18px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: black;
+}
+
+#questions {
+    margin: 20px;
+    color: black;
+}
+
+#time {
+    float: right;
+}
+
+h1 {
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: larger;
+}
+
+p {
+    margin: 5px;
+    padding: 5px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px;
+}
