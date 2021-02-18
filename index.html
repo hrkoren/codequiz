@@ -5,19 +5,98 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="assets/reset.css">
     <link rel="stylesheet" type="text/css" href="assets/style.css">
-    <title>coding Quiz Challenge</title>
+    <title>Coding Quiz Challenge</title>
 </head>
 <body>
-    <a href="highscores.html">View Highscores</a>
-<div id="quizbox">
-    <div id="time"></div>
-        <div id="questions">
-            <h1>Coding Quiz Challenge</h1>
-            <p>Try to answer the following coding related questions within the time limit. Any wrong answers will be penalized by reducing your score and your time allotment by ten seconds!</p>
 
-    <button id="startTime">Start Quiz</button>
+    <div class="startQuiz"><button>Start</button></div>
+    <div class="highScores">
+    <a href="#highscores">View Highscores</a></div>
+    
+    <!--Quiz Intro-->
+<div class="infoBox">
+    <div id="quizTitle">
+        <span>Coding Quiz Challenge</span>
     </div>
-</div>  
+        <div class="quizInfo">
+            <div class="info">Try to answer the following coding related questions within the time limit.</div>
+            <div class="info">Any wrong answers will be penalized by reducing your score and your time allotment by ten seconds!</div>
+        </div>
+    <div class="buttons"></div>
+    <button class="highScores">High Scores</button>
+    <button class="start">Start Quiz</button>
+    </div>  
+
+<!--Quiz Questions-->
+
+<div class="quizBox">
+<header>
+    <div class="title">JavaScript Quiz</div>
+    <div class="timer"></div>
+        <div class="timerText">Time Left</div>
+        <div class="currentTime">60</div>
+</header>
+
+<section>
+    <div class="questionText">
+        <span>What does HTML stand for?</span>
+    </div>
+    <div class="answersList">
+       <div class="answers">
+        <span>Hyper Text Markup List</span>
+        <div class="iconWrong">✖</div>
+    </div>
+    <div class="answersList">
+        <div class="answers">
+        <span>Hyper Text Markup Language</span>
+        <div class="iconRight">✔</div>
+    </div>
+    <div class="answersList">
+        <div class="answers">
+        <span>Hyper Tool Markup Language</span>
+        <div class="iconWrong">✖</div>
+    </div>
+    <div class="answersList">
+        <div class="answers">
+        <span>Hyper Tool Multiple Languages</span>
+        <div class="iconWrong">✖</div>
+    </div>
+  </div>
+    </section>
+</div>
+
+<footer>
+        <button class="submit">Submit</button>
+</footer>
+
+<div class="resultsBox">
+    <div class="icon">
+        <div class="crown">👑</div>
+    </div>
+    <div class="finished">You've completed the Quiz!</div>
+    <div class="scoreText">
+        <span>You got<p>60</p>points</span>
+    </div>
+    <div class="buttons">
+        <button class="restart">Replay Quiz</button>
+        <button class="viewHigh">View High Scores</button>
+        <button class="clear">Clear High Scores</button>
+    </div>
+</div>
+
+
+<!-- <div class="hide" id="questions">
+    <section id="questionText"></section> -->
+
+    
+
+<div class="hide" id="results">
+        <h1 id="highScores">High Scores</h1>
+        
+    </div>
+</div>
+
+
     <script src="assets/script.js"></script>
 </body>
 </html>
