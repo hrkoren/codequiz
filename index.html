@@ -9,19 +9,51 @@
     <title>Javascript Coding Quiz</title>
 </head>
 <body>
-    <input id="viewScores" type="button" value="High Scores">
-        <span id="timer">Time: 0</span>
-        <div id="scores"></div>
-    
-   <div id="questions"></div>
-   <div id="options"></div>
-   <form id="results"></form>
+    <div id="headerBox">
+        <a href=# id="viewHighScores">View High Scores</a>
+        <div id="timer">Time Left: 60 seconds</div>
+    </div>
 
-   <div id="buttons">
-       <input id="start_btn" type="button" value="Start Quiz">
-   </div>
+<section>
+    <div id="quizBox">
+        <div id="questionBox" class="hide">
+            <div id="question">Question</div>
+            <div id="answerBtnBox" class="answersList">
+                <button class="answerBtn btn">Answer 1</button>
+                <button class="answerBtn btn">Answer 2</button>
+                <button class="answerBtn btn">Answer 2</button>
+                <button class="answerBtn btn">Answer 4</button>
+            </div>
+        <div id="correctOrIncorrect">answer</div>
+        </div>
+    <div id="infoBox">
+        <h2>JavaScript Coding Quiz</h2>
+        <p>Answer the following questions within the alloted time. Any incorrect answers will reduce time by 10 seconds and deduct points.</p>
+        <button id="start_btn" class="buttons">Start Quiz</button>
+    </div>
 
-<!-- <script src="assets/questions.js"></script> -->
+    <div id="finishQuizBox" class="hide">
+        <h1>Quiz Complete!</h1>
+        <div id="finalScore"> </div>
+        <form id="initialsBox" class="submitInitials" method="POST">
+            <label for="initials">Enter Your Initials:</label>
+            <input type="text" name="enterInitials" id="enterInitials"/>
+            <button id="submitBtn" class="buttons">Submit</button>
+        </form>
+    </div>
+
+    <div id="highScores" class="hide">
+        <h1>High Scores</h1>
+        <ol id="submittedScores"></ol>
+        <div class="buttonBox">
+            <button id="goBack" class="buttons">Go Back</button>
+            <button id="clearScores" class="buttons">Clear High Scores</button>
+        </div>
+    </div>
+</div>
+</section>
+
+
 <script src="assets/script.js"></script>
 
 </body>

@@ -1,205 +1,190 @@
-let secondsLeft = 75;
-let timer = document.getElementById('timer');
-let scores = document.getElementById('scores');
-let buttons = document.getElementById('buttons');
+//assigning variables
+const startQuiz = document.querySelector('#start_btn');
+const quizIntro = document.querySelector('#infoBox');
+const questionBox = document.querySelector('#questionBox');
+const questionText = document.querySelector('#question');
+const answerButton = document.querySelector('#answerBtnBox');
+const result = document.querySelector('#correctOrIncorrect');
+const finished = document.querySelector('#finishQuizBox');
+const finalScore = document.querySelector('#finalScore');
+const timerEl = document.querySelector('#timer');
+const submitBtnEl = document.querySelector('#submitBtn');
+const userInitials = document.querySelector('#enterInitials');
+const scoresPage = document.querySelector('highScores');
+const scoresList = document.querySelector('#submittedScores');
+const clearScores = document.querySelector('#clearScores');
+const viewScores = document.querySelector('#viewHighScores');
+const goBack = document.querySelector('#goBack');
 
-//high scores
-let viewScores = document.getElementById('highScores');
+var currentQuestion;
+var currentQuestionIndex;
 
-//start button
-let startQuiz = document.getElementById('start_btn');
-startQuiz.addEventListener('click', setTime);
+var score = 0;
+var timeLeft = 60;
+var timeInterval;
 
-//questions
-var questions = document.getElementById('questions');
-//hold results
-let results = document.getElementById('results');
-//options or answer choices
-var options = document.getElementById('options');
-
-//store high scores
-let emptyArray = [];
-
-//high scores array from local storage
-let storedArray = JSON.parse(window.localStorage.getItem('highScores'));
-
-//current question
-var questionCount = 0;
-//current score
-score = 0;
-
-//when start button pressed, timer starts and 1st question displayed
-function setTime() {
-    displayQuestions();
-    let timerInterval = setInterval(function() {
-        secondsLeft--;
-        timer.textContext = '';
-        timer.textContent = 'Time: ' + secondsLeft;
-        if (secondsLeft <= 0 || questionCount === questions.length) {
-            clearInterval(timerInterval);
-            captureUserScore();
-        }
-    }, 1000);
+//storing high scores
+if (localStorage.length === 0) {
+    var highScores = [];
+} else {
+    var highScores = JSON.parse(localStorage.getItem('highScores'));
 }
 
-var questions = [
-    {
-        title: 'What is the HTML tag used to link to the JavaScript code?',
-        options: ['<scripted>', '<javascript>', '<script>', '<js>'],
-        answer: '<script>'
-    },
+var highScores;
+var li;
+var storedHighScores;
+var highScoreText;
 
+//questions
+const questions = [
     {
-        title: 'Which of the following will display the message in an alert box?',
-        options: ['alertbox("Hello World")', 'text("Hello World")', 'alert("Hello World")', 'msg("Hello World")'],
-        answer: 'alert("Hello World")'
+        question: 'What is the HTML tag used to link to the JavaScript code?',
+        answers: [
+            {text: '<scripted>', correct: false},
+            {text: '<javascript>', correct: false},
+            {text: '<script>', correct: true},
+            {text: '<js>', correct: false}
+        ]
     },
-
     {
-        title: 'The external JavaScript file must contain a <script> tag.',
-        options: ['true', 'false'],
-        answer: 'true'
+        question: 'Which of the following will display the message in an alert box?',
+        answers: [
+            {text: 'alertbox("Hello World")', correct: false}, 
+            {text: 'text("Hello World")', correct: false},
+            {text:'alert("Hello World")', correct: true}, 
+            {text:'msg("Hello World")', correct: false} 
+        ]
     },
-
     {
-        title: 'What property is used to get an array length?',
-        options: ['.log', '.length', '.console', 'index'],
-        answer: '.length'
+        question: 'The external JavaScript file must contain a <script> tag.',
+        answers: [
+            {text:'true', correct: true},
+            {text:'false', correct: false}
+        ]
     },
-    
     {
-        title: 'Which are valid JavaScript variable data types?',
-        options: ['numbers', 'strings', 'objects', 'All of the above'],
-        answer: 'All of the above'
+        question: 'What property is used to get an array length?',
+        answers: [
+            {text: '.log', correct: false}, 
+            {text: '.length', correct: true}, 
+            {text:'.console', correct: false},
+            {text:'index', correct: false}
+        ]
+    },
+        {
+        question: 'Which are valid JavaScript variable data types?',
+        answers: [
+            {text: 'numbers', correct: false},
+            {text: 'strings', correct: false},
+            {text: 'objects', correct: false},
+            {text: 'All of the above', correct: true}
+        ]
     }
 ]
 
-function displayQuestions() {
-    removeEls(startQuiz);
-    // var questionDisplay = questions[0];
-    console.log('display question test');
-    if (questionCount < questions.length) {
-        questions.innerText = questions[questionCount].title;
-        options.textContent = '';
+//when start quiz button is clicked timer starts and 1st question appears
+startQuiz.addEventListener('click', startChallenge);
 
-        for (let i = 0; i < questions[questionCount].options.length; i++) {
-            let el = document.createElement('button');
-            el.innerText = questions[questionCount].options[i];
-            el.setAttribute('data-id', i);
-            el.addEventListener('click', function (event) {
-                event.stopPropagation();
+function startChallenge() {
+    timer();
+    infoBox.classList.add('hide');
+    currentQuestion = questions.sort();
+    currentQuestionIndex = 0;
+    questionBox.classList.remove('hide');
+    setNextQuestion();
+}
 
-                if (el.innerText === questions[questionCount].answer) {
-                    score += secondsLeft;
-                } else {
-                    score -= 10;
-                    secondsLeft = secondsLeft - 10;
-                }
-
-                questions.innerHTML = '';
-
-                if (questionCount === questions.length) {
-                    return;
-                } else {
-                    questionCount++;
-                    displayQuestions();
-                }
-            });
-            options.append(el);
+function timer(){
+    timeInterval = setInterval(function(){
+        if(timeLeft > 0) {
+            timerEl.textContext = "Time Left: " + timeLeft + " seconds";
+            timeLeft--;
+        } else {
+            timerEl.textContext = "Time's Up!";
+            showFinishedScreen();
+            clearInterval(timeInterval);
         }
-    }
+    }, 1000);
 }
-
-function captureUserScore() {
-    timer.remove();
-    options.textContent = '';
-
-    let initialsInput = document.createElement('input');
-    let postScores = document.createElement('input');
-
-    results.innerHTML = 'You scored ${score} points! Enter your initials: ';
-    initialsInput.setAttribute('type', 'text');
-    postScores.setAttribute('type', 'button');
-    postScores.setAttribute('value', 'Post Score');
-    postScores.addEventListener('click', function (event) {
-        event.preventDefault();
-        let scoresArray = defineScoresArray(storedArray, emptyArray);
-
-        let initials = initialsInput.value;
-        let userScore = {
-            initials: initials,
-            score: score,
-        };
-
-        scoresArray.push(userScore);
-        saveScores(scoresArray);
-        displayAllScores();
-        clearScores();
-        goBackBtn();
-        viewScores.remove();
-    });
-    results.append(initialsInput);
-    results.append(postScores);
-}
-
-const saveScores = (array) => {
-    window.localStorage.setItem('highScores', JSON.stringify(array));
-}
-
-const defineScoresArray = (arr1, arr2) => {
-    if (arr1 !== null) {
-        return arr1
+//starts questions and cycles through until no more left
+function setNextQuestion() {
+    resetState();
+    if(currentQuestion.length < currentQuestionIndex +1) {
+        showFinishedScreen();
     } else {
-        return arr2
+        showQuestion(currentQuestion[currentQuestionIndex]);
     }
 }
-
-const removeEls = (...els) => {
-    for (let el of els) el.remove();
-}
-
-function displayAllScores() {
-    removeEls(timer, startQuiz, results);
-    let scoresArray = defineScoresArray(storedArray, emptyArray);
-
-    scoresArray.forEach(obj => {
-        let initials = obj.initials;
-        let storedScore = obj.score;
-        let resultsP = document.createElement('p');
-        resultsP.innerText = '${initials}: ${storedScore}';
-        scores.append(resultsP);
-    });
-}
-
-function viewHighScores(){
-    viewScores.addEventListener('click', function(event) {
-        event.preventDefault();
-        removeEls(timer, start_btn);
-        displayAllScores();
-        clearScores();
-        goBackBtn();
-    });
-}
-
-function clearScores () {
-    let clearBtn = document.createElement('input');
-    clearBtn.setAttribute('type', 'button');
-    clearBtn.setAttribute('value', 'Clear Scores');
-    clearBtn.addEventListener('click', function(event){
-        event.preventDefault();
-        removeEls(scores);
-        window.localStorage.removeItem('highScores');
+//shows the question and answer text
+function showQuestion(questions) {
+    questionText.innerText = questions.question;
+    questions.answers.forEach(answer => {
+        const button = document.createElement('button');
+        button.innerText = answer.text
+        button.classList.add('btn');
+        if(answer.correct) {
+            button.dataset.correct = answer.correct
+        }
+        button.addEventListener('click', selectAnswer);
+        answerButton.appendChild(button);
     })
-    scores.append(clearBtn)
 }
+//incorrect or correct answer will add points or remove time
+function selectAnswer(event) {
+    const selectedButton = event.target;
+    if (selectedButton.dataset.correct) {
+        result.innerHTML = "Correct";
+        score = score + 10;
+    } else {
+        timeLeft = timeLeft - 10;
+        result.innerHTML = "Wrong";
+    }
+    currentQuestionIndex++;
+    setNextQuestion();
+}
+//sets the reset state for next question
+function resetState() {
+    while (answerButton.firstChild) {
+        answerButton.removeChild(answerButton.firstChild);
+    }
+}
+//finished screen with score and initials box
+function showFinishedScreen() {
+    clearInterval(timeInterval);
+    questionBox.classList.add('hide');
+    finished.classList.remove('hide');
+    const showScore = document.createElement('p');
+    showScore.innerHTML = "You scored " + (score + timeLeft);
+    finalScore.appendChild(showScore);
+}
+//storing scores to high scores page after submit
+submitBtnEl.addEventListener('click', showScoresPage);
 
-function goBackBtn() {
-    let backBtn = document.createElement('input');
-    backBtn.setAttribute('type', 'button');
-    backBtn.setAttribute('value', 'Go Back');
-    backBtn.addEventListener('click', function(event){
-        event.preventDefault();
-        window.location.reload();
-    })
-    buttons.append(backBtn)
+function showScoresPage (event) {
+    event.preventDefault();
+    finished.classList.add('hide');
+    scoresPage.classList.remove('hide');
+
+    highScoreText = userInitials.value + ": " + (score + timeLeft);
+
+    if(userInitials.value !== '') {
+        highScores.push(highScoresText);
+        userInitials.value = '';
+    }
+    storedHighScores();
+    renderHighScores();
+}
+function storedHighScores() {
+    localStorage.setItem("highScores", JSON.stringify(highScores));
+}
+function renderHighScores() {
+    for (var i = 0; i < 10; i++) {
+        highScores = highScores[i];
+
+        li = document.createElement("li");
+        li.textContext = highscore;
+        li.setAttribute('data-index', i);
+
+        scoresList.appendChild(li);
+    }
 }

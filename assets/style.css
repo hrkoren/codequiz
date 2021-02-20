@@ -1,4 +1,4 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -9,25 +9,76 @@
     --blue: #2d9ae2
 }
 
-/* button {
-    display: block;
-    background-color: var(--blue);
-} */
+body {
+    margin: 30px 250px;
+}
 
-.start_btn {
+main {
+    padding: 0;
+    margin: 30px;
     display: flex;
     align-items: center;
+    justify-content: center;
+}
+
+#headerBox {
+    display: flex;
     justify-content: space-between;
-    padding: 15px 30px;
-    border-radius: 5px;
+}
+
+#viewHighScores {
+    margin: 10px 30px;
     font-size: 20px;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+    background: rgb(252, 250, 167);
 }
 
-#questions {
-    position: absolute;
-    top: 30%;
-    left: 40%;
-    color: black;
-
+#quizBox {
+    width: 500px;
+    max-width: 75%;
+    text-align: center;
 }
 
+#question {
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.answersList {
+    display: grid;
+    gap: 5px;
+    padding: 10px;
+    margin: 20px 0;
+    background-color: var(--blue);
+}
+
+.buttons {
+    font-size: 18px;
+    background-color: var(--blue);
+    padding: 5px;
+    box-shadow: 4px 4px 6px 6px rgb(53, 61, 63);
+}
+
+.buttons:hover {
+    background-color: rgb(105, 225, 247);
+    cursor: pointer;
+}
+
+.buttons:active {
+    background-color: var(--blue);
+    outline: none;
+}
+
+.submitInitials, .submitInitials input {
+    font-size: 18px;
+}
+
+.buttonBox {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.hide {
+    display: none;
+}
