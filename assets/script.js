@@ -10,7 +10,7 @@ const finalScore = document.querySelector('#finalScore');
 const timerEl = document.querySelector('#timer');
 const submitBtnEl = document.querySelector('#submitBtn');
 const userInitials = document.querySelector('#enterInitials');
-const scoresPage = document.querySelector('highScores');
+const scoresPage = document.querySelector('#highScores');
 const scoresList = document.querySelector('#submittedScores');
 const clearScores = document.querySelector('#clearScores');
 const viewScores = document.querySelector('#viewHighScores');
@@ -20,7 +20,7 @@ var currentQuestion;
 var currentQuestionIndex;
 
 var score = 0;
-var timeLeft = 60;
+var timeLeft = 59;
 var timeInterval;
 
 //storing high scores
@@ -30,7 +30,7 @@ if (localStorage.length === 0) {
     var highScores = JSON.parse(localStorage.getItem('highScores'));
 }
 
-var highScores;
+var highScore;
 var li;
 var storedHighScores;
 var highScoreText;
@@ -96,12 +96,12 @@ function startChallenge() {
 
 function timer(){
     timeInterval = setInterval(function(){
-        if(timeLeft > 0) {
+        if(timeLeft > 1) {
             timerEl.textContext = "Time Left: " + timeLeft + " seconds";
             timeLeft--;
         } else {
             timerEl.textContext = "Time's Up!";
-            showFinishedScreen();
+            showFinished();
             clearInterval(timeInterval);
         }
     }, 1000);
@@ -163,28 +163,55 @@ submitBtnEl.addEventListener('click', showScoresPage);
 function showScoresPage (event) {
     event.preventDefault();
     finished.classList.add('hide');
-    scoresPage.classList.remove('hide');
+    scoresList.classList.remove('hide');
 
     highScoreText = userInitials.value + ": " + (score + timeLeft);
 
     if(userInitials.value !== '') {
-        highScores.push(highScoresText);
+        highScores.push();
         userInitials.value = '';
     }
     storedHighScores();
     renderHighScores();
 }
-function storedHighScores() {
-    localStorage.setItem("highScores", JSON.stringify(highScores));
-}
-function renderHighScores() {
-    for (var i = 0; i < 10; i++) {
-        highScores = highScores[i];
 
-        li = document.createElement("li");
-        li.textContext = highscore;
+function renderHighScores() {
+    highScores.innerHTML = '';
+    
+    for (var i = 0; i < 10; i++) {
+        highScore = highScores[i];
+
+        li = document.createElement('li');
+        li.textContext = highScores;
         li.setAttribute('data-index', i);
 
         scoresList.appendChild(li);
     }
 }
+
+function storedHighScores() {
+    localStorage.setItem('highScores', JSON.stringify(highScores));
+}
+//Go Back
+goBack.addEventListener('click', function() {
+    infoBox.classList.remove('hide');
+    scoresPage.classList.add('hide');
+
+    while (showFinishedScreen.firstChild) {
+        showFinishedScreen.removeChild(showFinishedScreen.firstChild);
+    }
+    while (scoresList.firstChild) {
+        scoresList.removeChild(scoresList.firstChild);
+    }
+    timeLeft = 60;
+    timerEl.textContent = "Time Left: " + timeLeft + " seconds";
+})
+
+//View High Scores Link
+viewHighScores.addEventListener('click', function (event) {
+    showScoresPage(event);
+    infoBox.classList.add('hide');
+    questionBox.classList.add('hide');
+    finished.classList.add('hide');
+    clearInterval(timeInterval);
+});

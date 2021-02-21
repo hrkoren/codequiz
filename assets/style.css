@@ -1,6 +1,6 @@
 * {
     margin: 0;
-    padding: 0;
+    padding: 5px;
     box-sizing: border-box;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
@@ -10,12 +10,12 @@
 }
 
 body {
-    margin: 30px 250px;
+    margin: 40px 400px;
 }
 
 main {
     padding: 0;
-    margin: 30px;
+    margin: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -57,7 +57,7 @@ main {
     font-size: 18px;
     background-color: var(--blue);
     padding: 5px;
-    box-shadow: 4px 4px 6px 6px rgb(53, 61, 63);
+    box-shadow: 4px 4px 4px 4px rgb(53, 61, 63);
 }
 
 .buttons:hover {
@@ -70,6 +70,10 @@ main {
     outline: none;
 }
 
+.start_btn {
+    margin-top: 60px;
+}
+
 .submitInitials, .submitInitials input {
     font-size: 18px;
 }
@@ -77,6 +81,11 @@ main {
 .buttonBox {
     display: flex;
     justify-content: space-evenly;
+}
+
+p {
+   padding: 5px; 
+   line-height: 1.5rem;
 }
 
 .hide {
