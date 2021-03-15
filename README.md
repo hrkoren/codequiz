@@ -18,6 +18,14 @@ Follow the steps below to test your knowledge
 5. Enter you initials to save your score to the High Scores list.
 6. Use the Clear High Scores button to clear all scores.
 
+## Technologies Used
+
+This project uses HTML, CSS, and JavaScript.
+
 ## License
 
-This project is not licensed.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## Contact
+
+[hrkoren@gmail.com](mailto:hrkoren@gmail.com)
