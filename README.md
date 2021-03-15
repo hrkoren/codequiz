@@ -4,7 +4,7 @@ The coding quiz tests you knowledge of five basic JavaScript coding rules. Any i
 
 ## Installation
 
-Go to [the quiz](https://hrkoren.github.io/codequiz/) to check it out.
+Go to [the quiz](https://hrkoren.github.io/codequiz/) to check it out and test your knowledge.
 
 ## Usage
 
