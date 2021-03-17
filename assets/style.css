@@ -2,7 +2,7 @@
     margin: 0;
     padding: 5px;
     box-sizing: border-box;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: 'Lora', serif;
 }
 
 :root {
@@ -23,20 +23,29 @@ main {
 
 #headerBox {
     display: flex;
-    justify-content: space-between;
+    border: 2px solid var(--blue);
+    border-radius: 12px;
+    max-width: 75%;
+}
+
+#timer {
+    margin-top: 15px;
+    margin-left: 120px;
 }
 
 #viewHighScores {
     margin: 10px 30px;
     font-size: 20px;
     color: var(--blue);
-    border: 1px solid var(--blue);
-    background: rgb(252, 250, 167);
+    /* border: 1px solid var(--blue); */
+    /* background: rgb(252, 250, 167); */
 }
 
-#quizBox {
+#quizBox,
+#infoBox {
     width: 500px;
-    max-width: 75%;
+    margin-left: 40px;
+    max-width: 80%;
     text-align: center;
 }
 
@@ -57,7 +66,8 @@ main {
     font-size: 18px;
     background-color: var(--blue);
     padding: 5px;
-    box-shadow: 4px 4px 4px 4px rgb(53, 61, 63);
+    box-shadow: 2px 2px 2px 1px rgb(53, 61, 63);
+    border-radius: 10px;
 }
 
 .buttons:hover {
@@ -70,12 +80,17 @@ main {
     outline: none;
 }
 
-.start_btn {
+.startBtn {
     margin-top: 60px;
 }
 
 .submitInitials, .submitInitials input {
     font-size: 18px;
+    padding: 5px;
+}
+
+#submitBtn {
+    margin-top: 20px;
 }
 
 .buttonBox {

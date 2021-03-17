@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lora&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="assets/reset.css"/>
     <link rel="stylesheet" type="text/css" href="assets/style.css"/>
     <title>Javascript Coding Quiz</title>
@@ -11,7 +13,7 @@
 <body>
     <div id="headerBox">
         <a href=# id="viewHighScores">View High Scores</a>
-        <div id="timer">Time Left: 60 seconds</div>
+        <div id="timer"></div>
     </div>
 
 <section>
@@ -31,7 +33,7 @@
     <div id="infoBox">
         <h2>JavaScript Coding Quiz</h2>
         <p>Answer the following questions within the alloted time. Any incorrect answers will reduce time by 10 seconds and deduct points.</p>
-        <button id="start_btn" class="buttons">Start Quiz</button>
+        <button id="startBtn" class="buttons">Start Quiz</button>
     </div>
     <!-- Final Score and Initials -->
     <div id="finishQuizBox" class="hide">
@@ -46,7 +48,7 @@
     <!-- HighScores Page -->
     <div id="highScores" class="hide">
         <h1>High Scores</h1>
-        <ol id="submittedScores"></ol>
+        <div id="submittedScores"></div>
         <div class="buttonBox">
             <button id="goBack" class="buttons">Go Back</button>
             <button id="clearScores" class="buttons">Clear High Scores</button>

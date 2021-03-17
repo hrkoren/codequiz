@@ -1,5 +1,5 @@
 //assigning variables
-const startQuiz = document.querySelector('#start_btn');
+const startQuiz = document.querySelector('#startBtn');
 const quizIntro = document.querySelector('#infoBox');
 const questionBox = document.querySelector('#questionBox');
 const questionText = document.querySelector('#question');
@@ -12,30 +12,16 @@ const submitBtnEl = document.querySelector('#submitBtn');
 const userInitials = document.querySelector('#enterInitials');
 const scoresPage = document.querySelector('#highScores');
 const scoresList = document.querySelector('#submittedScores');
-const clearScores = document.querySelector('#clearScores');
+// const clearScores = document.getElementById('#clearScores');
 const viewScores = document.querySelector('#viewHighScores');
 const goBack = document.querySelector('#goBack');
-
 let currentQuestion;
 let currentQuestionIndex;
-
 let score = 0;
-let timeLeft = 59;
+let timeLeft = 60;
 let timeInterval;
 
-let highScore;
-let li;
-// let storedHighScores;
-let highScoreText;
-
-//storing high scores
-if (localStorage.highScoreslength === 0) {
-    var highScores = [];
-} else {
-    highScores = JSON.parse(localStorage.getItem('highScores'));
-    let scoresList = document.createElement('li');
-    highScores.push(scoresList);
-}
+startQuiz.addEventListener('click', startChallenge);
 
 //questions
 const questions = [
@@ -82,11 +68,9 @@ const questions = [
             { text: 'All of the above', correct: true }
         ]
     }
-]
+];
 
 //when start quiz button is clicked timer starts and 1st question appears
-startQuiz.addEventListener('click', startChallenge);
-
 function startChallenge() {
     timer();
     infoBox.classList.add('hide');
@@ -99,7 +83,7 @@ function startChallenge() {
 function timer() {
     timeInterval = setInterval(function () {
         if (timeLeft > 1) {
-            timerEl.innerContext = "Time Left: " + timeLeft + " seconds";
+            timerEl.textContent = "Time Left: " + timeLeft + " seconds";
             timeLeft--;
         } else {
             timerEl.textContext = "Time's Up!";
@@ -108,6 +92,7 @@ function timer() {
         }
     }, 1000);
 }
+
 //starts questions and cycles through until no more left
 function setNextQuestion() {
     resetState();
@@ -122,14 +107,14 @@ function showQuestion(questions) {
     questionText.innerText = questions.question;
     questions.answers.forEach(answer => {
         const button = document.createElement('button');
-        button.innerText = answer.text
+        button.innerText = answer.text;
         button.classList.add('btn');
         if (answer.correct) {
-            button.dataset.correct = answer.correct
+            button.dataset.correct = answer.correct;
         }
         button.addEventListener('click', selectAnswer);
         answerButton.appendChild(button);
-    })
+    });
 }
 //incorrect or correct answer will add points or remove time
 function selectAnswer(event) {
@@ -158,9 +143,29 @@ function showFinishedScreen() {
     const showScore = document.createElement('p');
     showScore.innerHTML = "You scored " + (score + timeLeft);
     finalScore.appendChild(showScore);
+
+    finalScore = JSON.parse(localStorage.getItem("highScores")) || [];
 }
-//storing scores to high scores page after submit
-submitBtnEl.addEventListener('click', showScoresPage);
+
+// let storedHighScores;
+// let highScoreText;
+
+//storing high scores
+
+// function saveHighScores(event) {
+//     event.preventDefault();
+//     let highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+// }
+// if (localStorage.highScores.length !== 0) {
+//     localStorage.setItem("highScores", JSON.stringify(highScores));
+//     let scoresPage = document.createElement('li');
+    
+//     scoresList.append(scoresPage);
+// }
+
+// function storedHighScores() {
+//     localStorage.setItem('highScores', JSON.stringify(highScores));
+// } 
 
 function showScoresPage(event) {
     event.preventDefault();
@@ -168,35 +173,52 @@ function showScoresPage(event) {
     scoresList.classList.remove('hide');
 
     highScoreText = userInitials.value + ": " + (score + timeLeft);
-
+    let finalScore = JSON.parse(localStorage.getItem("highScores")) || [];
     if (userInitials.value !== '') {
-        highScores.push({ user_initials: score });
+        scoresPage = document.createElement('li');
+        scoresPage.push({userInitials: score});
         userInitials.value = '';
-    }
-    storedHighScores();
-    renderHighScores();
+
+        // let highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+        if (localStorage.highScores.length !== 0) {
+            localStorage.setItem("highScores", JSON.stringify("highScores"));
+            
+            scoresList.append(finalScore);
+    } 
+
+    //storing scores to high scores page after submit
+    submitBtnEl.addEventListener('click', showScoresPage);
+
+    viewScores.addEventListener('click', function (event) {
+    showScoresPage(event);
+    quizIntro.classList.add('hide');
+    questionBox.classList.add('hide');
+    finished.classList.add('hide');
+    clearInterval(timeInterval);
+});
 }
-
-function renderHighScores() {
-    highScores.innerHTML = '';
-
-    for (var i = 0; i < 10; i++) {
-        highScore = highScores[i];
-
-        li = document.createElement('li');
-        li.textContext = highScores;
-        li.setAttribute('data-index', i);
-
-        scoresList.appendChild(li);
-    }
 }
+// storedHighScores();
+// renderHighScores();
 
-function storedHighScores() {
-    localStorage.setItem('highScores', JSON.stringify(highScores));
-}
+// let li;
+// function renderHighScores() {
+//     highScores.innerHTML = scoresList;
+
+//     for (let i = 0; i < 10; i++) {
+//         highScore = highScores[i];
+
+//         li = document.createElement('li');
+//         li.textContext = highScores;
+//         li.setAttribute('data-index', i);
+
+//         scoresList.appendChild(li);
+//     }
+// }
+
 //Go Back
-goBack.addEventListener('click', function () {
-    infoBox.classList.remove('hide');
+function goBackToStart() {
+    quizIntro.classList.remove('hide');
     scoresPage.classList.add('hide');
 
     while (showFinishedScreen.firstChild) {
@@ -207,13 +229,6 @@ goBack.addEventListener('click', function () {
     }
     timeLeft = 60;
     timerEl.textContent = "Time Left: " + timeLeft + " seconds";
-})
 
-//View High Scores Link
-viewHighScores.addEventListener('click', function (event) {
-    showScoresPage(event);
-    infoBox.classList.add('hide');
-    questionBox.classList.add('hide');
-    finished.classList.add('hide');
-    clearInterval(timeInterval);
-});
+    goBack.addEventListener('click', goBackToStart);
+}
