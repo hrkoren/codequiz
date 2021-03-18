@@ -143,29 +143,49 @@ function showFinishedScreen() {
     const showScore = document.createElement('p');
     showScore.innerHTML = "You scored " + (score + timeLeft);
     finalScore.appendChild(showScore);
-
-    finalScore = JSON.parse(localStorage.getItem("highScores")) || [];
 }
+
+//   get item
+//   finalScore = JSON.parse(localStorage.getItem("highScores")) || [];
+
+// setItem -> 'highScores' / '[ {name: 'XXX', score: 123}, {name: 'XXX', score: 9} ]'
+
+function saveScore() {
+    let finalScore = JSON.parse(localStorage.getItem('highScores')) || [];
+    finalScore.push(userScores);
+    localStorage.setItem('highScores', JSON.stringify([{Initials: '', Score: ''}]));
+    scoresPage.textContent = '';
+    scoresList.value = '';
+    userScores.forEach(userScores => {
+        let createScoreP = document.createElement('p');
+
+        createScoreP.textContent = userScores;
+        userScores.appendChild(createScoreP);
+    })
+}
+
+
+
+// getItem 'highScores'
+// highScores = JSON.parse(localStorage.getItem('highScores'))
+// parse -> array
+// push newScore object
+// stringify array
+// setItem 'highScores'
+
+// function displayHighScores() {
+// getItem 'highScores' || []
+// finalScore = JSON.parse(localStorage.getItem("highScores")) || [];
+// parse array
+// loop over array, for each object create HTML
+// <div>
+// <p>Name: ${object.name}</p>
+// <p>Score: ${object.score}</p>
+// </div>
+// }
 
 // let storedHighScores;
 // let highScoreText;
-
-//storing high scores
-
-// function saveHighScores(event) {
-//     event.preventDefault();
-//     let highScores = JSON.parse(localStorage.getItem("highScores")) || [];
-// }
-// if (localStorage.highScores.length !== 0) {
-//     localStorage.setItem("highScores", JSON.stringify(highScores));
-//     let scoresPage = document.createElement('li');
-    
-//     scoresList.append(scoresPage);
-// }
-
-// function storedHighScores() {
-//     localStorage.setItem('highScores', JSON.stringify(highScores));
-// } 
 
 function showScoresPage(event) {
     event.preventDefault();
@@ -173,48 +193,35 @@ function showScoresPage(event) {
     scoresList.classList.remove('hide');
 
     highScoreText = userInitials.value + ": " + (score + timeLeft);
-    let finalScore = JSON.parse(localStorage.getItem("highScores")) || [];
+    let finalScore = JSON.parse(localStorage.getItem('highScores')) || [];
     if (userInitials.value !== '') {
         scoresPage = document.createElement('li');
-        scoresPage.push({userInitials: score});
+        scoresPage.push({ userInitials: score });
         userInitials.value = '';
 
         // let highScores = JSON.parse(localStorage.getItem("highScores")) || [];
         if (localStorage.highScores.length !== 0) {
-            localStorage.setItem("highScores", JSON.stringify("highScores"));
-            
+            localStorage.setItem('highScores', JSON.stringify('highScores'));
+
             scoresList.append(finalScore);
-    } 
+        }
 
-    //storing scores to high scores page after submit
-    submitBtnEl.addEventListener('click', showScoresPage);
+        //storing scores to high scores page after submit
+        submitBtnEl.addEventListener('click', showScoresPage);
 
-    viewScores.addEventListener('click', function (event) {
-    showScoresPage(event);
-    quizIntro.classList.add('hide');
-    questionBox.classList.add('hide');
-    finished.classList.add('hide');
-    clearInterval(timeInterval);
-});
-}
-}
+        viewScores.addEventListener('click', function (event) {
+            showScoresPage(event);
+            quizIntro.classList.add('hide');
+            questionBox.classList.add('hide');
+            finished.classList.add('hide');
+            clearInterval(timeInterval);
+        });
+    }
+
 // storedHighScores();
 // renderHighScores();
 
-// let li;
-// function renderHighScores() {
-//     highScores.innerHTML = scoresList;
 
-//     for (let i = 0; i < 10; i++) {
-//         highScore = highScores[i];
-
-//         li = document.createElement('li');
-//         li.textContext = highScores;
-//         li.setAttribute('data-index', i);
-
-//         scoresList.appendChild(li);
-//     }
-// }
 
 //Go Back
 function goBackToStart() {
@@ -231,4 +238,5 @@ function goBackToStart() {
     timerEl.textContent = "Time Left: " + timeLeft + " seconds";
 
     goBack.addEventListener('click', goBackToStart);
+}
 }
