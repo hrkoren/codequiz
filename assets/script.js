@@ -146,31 +146,12 @@ function showFinishedScreen() {
     finalScore.appendChild(showScore);
 }
 
-//   get item
-//   finalScore = JSON.parse(localStorage.getItem("highScores")) || [];
-
-// setItem -> 'highScores' / '[ {name: 'XXX', score: 123}, {name: 'XXX', score: 9} ]'
-
-function saveScore() {
-    let finalScore = JSON.parse(localStorage.getItem('highScores')) || [];
-    finalScore.push(userScores);
-    localStorage.setItem('highScores', JSON.stringify([{ Initials: '', Score: '' }]));
-    scoresPage.textContent = '';
-    scoresList.value = '';
-    userScores.forEach(userScores => {
-        let createScoreP = document.createElement('p');
-
-        createScoreP.textContent = userScores;
-        userScores.appendChild(createScoreP);
-    })
-}
-
-
-
 // getItem 'highScores'
-// highScores = JSON.parse(localStorage.getItem('highScores'))
+highScores = JSON.parse(localStorage.getItem('highScores', 'value'))
 // parse -> array
+
 // push newScore object
+
 // stringify array
 // setItem 'highScores'
 
@@ -192,20 +173,24 @@ function showScoresPage(event) {
     event.preventDefault();
     finished.classList.add('hide');
     scoresList.classList.remove('hide');
-
-    highScoreText = userInitials.value + ": " + (score + timeLeft);
+//looks in local storage for a stored array, if none exists, it creates one
     let finalScore = JSON.parse(localStorage.getItem('highScores')) || [];
-    if (userInitials.value !== '') {
-        scoresPage = document.createElement('li');
+    finalScore.push(userScores);
+    //grab user's entered initials and score and sets to local storage
+    localStorage.setItem('highScores', JSON.stringify([{Initials: 'userInitials', Score: 'score'}]));
+    scoresPage.textContent = '';
+    scoresList.value = '';
+    //creates list of highscores on the highscores page
+    userScores.forEach(userScores => {
+        scoresPage = document.createElement('div');
+        let createScoreP = document.createElement('p')
+        createScoreP.textContent = userScores;
+        userScores.appendChild(createScoreP);
+
         scoresPage.push({ userInitials: score });
         userInitials.value = '';
-
-        // let highScores = JSON.parse(localStorage.getItem("highScores")) || [];
-        if (localStorage.highScores.length !== 0) {
-            localStorage.setItem('highScores', JSON.stringify('highScores'));
-
-            scoresList.append(finalScore);
-        }
+    });
+       // scoresList.append(finalScore);
 
         //storing scores to high scores page after submit
         submitBtnEl.addEventListener('click', showScoresPage);
@@ -217,12 +202,28 @@ function showScoresPage(event) {
             finished.classList.add('hide');
             clearInterval(timeInterval);
         });
-    }
+}
 
+//   get item
+//   finalScore = JSON.parse(localStorage.getItem("highScores")) || [];
+
+// setItem -> 'highScores' / '[ {name: 'XXX', score: 123}, {name: 'XXX', score: 9} ]'
+
+// function saveScore() {
+//     let finalScore = JSON.parse(localStorage.getItem('highScores')) || [];
+//     finalScore.push(userScores);
+//     localStorage.setItem('highScores', JSON.stringify([{ Initials: 'userInitials', Score: 'score' }]));
+//     scoresPage.textContent = '';
+//     scoresList.value = '';
+//     userScores.forEach(userScores => {
+//         let createScoreP = document.createElement('p');
+
+//         createScoreP.textContent = userScores;
+//         userScores.appendChild(createScoreP);
+//     })
+// }
     // storedHighScores();
     // renderHighScores();
-
-
 
     //Go Back
     function goBackToStart() {
@@ -240,4 +241,3 @@ function showScoresPage(event) {
 
         goBack.addEventListener('click', goBackToStart);
     }
-}
