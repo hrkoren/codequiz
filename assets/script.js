@@ -79,15 +79,16 @@ function startChallenge() {
     questionBox.classList.remove('hide');
     setNextQuestion();
 }
-
+//time function starts at 60 and decreases in seconds and is displayed on screen
 function timer() {
     timeInterval = setInterval(function () {
         if (timeLeft > 1) {
             timerEl.textContent = "Time Left: " + timeLeft + " seconds";
             timeLeft--;
         } else {
-            timerEl.textContext = "Time's Up!";
-            showFinished();
+            //Not displaying "time's up" but does now go to the finished screen; time stopping at 2 seconds
+            // timerEl.textContext = "Time's Up!";
+            showFinishedScreen(timerEl.textContext = "Time's Up!");
             clearInterval(timeInterval);
         }
     }, 1000);
@@ -153,7 +154,7 @@ function showFinishedScreen() {
 function saveScore() {
     let finalScore = JSON.parse(localStorage.getItem('highScores')) || [];
     finalScore.push(userScores);
-    localStorage.setItem('highScores', JSON.stringify([{Initials: '', Score: ''}]));
+    localStorage.setItem('highScores', JSON.stringify([{ Initials: '', Score: '' }]));
     scoresPage.textContent = '';
     scoresList.value = '';
     userScores.forEach(userScores => {
@@ -218,25 +219,25 @@ function showScoresPage(event) {
         });
     }
 
-// storedHighScores();
-// renderHighScores();
+    // storedHighScores();
+    // renderHighScores();
 
 
 
-//Go Back
-function goBackToStart() {
-    quizIntro.classList.remove('hide');
-    scoresPage.classList.add('hide');
+    //Go Back
+    function goBackToStart() {
+        quizIntro.classList.remove('hide');
+        scoresPage.classList.add('hide');
 
-    while (showFinishedScreen.firstChild) {
-        showFinishedScreen.removeChild(showFinishedScreen.firstChild);
+        while (showFinishedScreen.firstChild) {
+            showFinishedScreen.removeChild(showFinishedScreen.firstChild);
+        }
+        while (scoresList.firstChild) {
+            scoresList.removeChild(scoresList.firstChild);
+        }
+        timeLeft = 60;
+        timerEl.textContent = "Time Left: " + timeLeft + " seconds";
+
+        goBack.addEventListener('click', goBackToStart);
     }
-    while (scoresList.firstChild) {
-        scoresList.removeChild(scoresList.firstChild);
-    }
-    timeLeft = 60;
-    timerEl.textContent = "Time Left: " + timeLeft + " seconds";
-
-    goBack.addEventListener('click', goBackToStart);
-}
 }
