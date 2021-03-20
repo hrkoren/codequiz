@@ -147,7 +147,7 @@ function showFinishedScreen() {
 }
 
 // getItem 'highScores'
-highScores = JSON.parse(localStorage.getItem('highScores', 'value'))
+// highScores = JSON.parse(localStorage.getItem('highScores', 'value'))
 // parse -> array
 
 // push newScore object
@@ -177,7 +177,7 @@ function showScoresPage(event) {
     let finalScore = JSON.parse(localStorage.getItem('highScores')) || [];
     finalScore.push(userScores);
     //grab user's entered initials and score and sets to local storage
-    localStorage.setItem('highScores', JSON.stringify([{Initials: 'userInitials', Score: 'score'}]));
+    localStorage.setItem('highScores', JSON.stringify([{Initials: '', Score: ''}]));
     scoresPage.textContent = '';
     scoresList.value = '';
     //creates list of highscores on the highscores page
@@ -187,7 +187,7 @@ function showScoresPage(event) {
         createScoreP.textContent = userScores;
         userScores.appendChild(createScoreP);
 
-        scoresPage.push({ userInitials: score });
+        scoresPage.push({userInitials: score});
         userInitials.value = '';
     });
        // scoresList.append(finalScore);
@@ -195,15 +195,15 @@ function showScoresPage(event) {
         //storing scores to high scores page after submit
         submitBtnEl.addEventListener('click', showScoresPage);
 
-        viewScores.addEventListener('click', function (event) {
-            showScoresPage(event);
-            quizIntro.classList.add('hide');
-            questionBox.classList.add('hide');
-            finished.classList.add('hide');
-            clearInterval(timeInterval);
-        });
+       
 }
-
+viewScores.addEventListener('click', function (event) {
+    showScoresPage(event);
+    quizIntro.classList.add('hide');
+    questionBox.classList.add('hide');
+    finished.classList.add('hide');
+    clearInterval(timeInterval);
+});
 //   get item
 //   finalScore = JSON.parse(localStorage.getItem("highScores")) || [];
 
