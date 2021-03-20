@@ -144,13 +144,27 @@ function showFinishedScreen() {
     const showScore = document.createElement('p');
     showScore.innerHTML = "You scored " + (score + timeLeft);
     finalScore.appendChild(showScore);
+    localStorage.setItem('highScores', JSON.stringify([{ Initials: 'userInitials', Score: 'score' }]));
 }
 
+
+let initials;
+// let score = score;
 // getItem 'highScores'
 // highScores = JSON.parse(localStorage.getItem('highScores', 'value'))
-// parse -> array
+function saveScore() {
+    let finalScore = JSON.parse(localStorage.getItem('highScores')) || [];
+    finalScore.push(userScores);
+    localStorage.setItem('highScores', JSON.stringify([{ Initials: 'userInitials', Score: 'score' }]));
+    scoresPage.textContent = '';
+    scoresList.value = '';
+    userScores.forEach(userScores => {
+        let createScoreP = document.createElement('p');
 
-// push newScore object
+        createScoreP.textContent = userScores;
+        userScores.appendChild(createScoreP);
+    })
+}
 
 // stringify array
 // setItem 'highScores'
@@ -173,11 +187,10 @@ function showScoresPage(event) {
     event.preventDefault();
     finished.classList.add('hide');
     scoresList.classList.remove('hide');
-//looks in local storage for a stored array, if none exists, it creates one
+    //looks in local storage for a stored array, if none exists, it creates one
     let finalScore = JSON.parse(localStorage.getItem('highScores')) || [];
     finalScore.push(userScores);
     //grab user's entered initials and score and sets to local storage
-    localStorage.setItem('highScores', JSON.stringify([{Initials: '', Score: ''}]));
     scoresPage.textContent = '';
     scoresList.value = '';
     //creates list of highscores on the highscores page
@@ -187,15 +200,15 @@ function showScoresPage(event) {
         createScoreP.textContent = userScores;
         userScores.appendChild(createScoreP);
 
-        scoresPage.push({userInitials: score});
+        scoresPage.push({ userInitials: score });
         userInitials.value = '';
     });
-       // scoresList.append(finalScore);
+    // scoresList.append(finalScore);
 
-        //storing scores to high scores page after submit
-        submitBtnEl.addEventListener('click', showScoresPage);
+    //storing scores to high scores page after submit
+    submitBtnEl.addEventListener('click', showScoresPage);
 
-       
+
 }
 viewScores.addEventListener('click', function (event) {
     showScoresPage(event);
@@ -204,40 +217,24 @@ viewScores.addEventListener('click', function (event) {
     finished.classList.add('hide');
     clearInterval(timeInterval);
 });
-//   get item
-//   finalScore = JSON.parse(localStorage.getItem("highScores")) || [];
 
-// setItem -> 'highScores' / '[ {name: 'XXX', score: 123}, {name: 'XXX', score: 9} ]'
+// 
+// storedHighScores();
+// renderHighScores();
 
-// function saveScore() {
-//     let finalScore = JSON.parse(localStorage.getItem('highScores')) || [];
-//     finalScore.push(userScores);
-//     localStorage.setItem('highScores', JSON.stringify([{ Initials: 'userInitials', Score: 'score' }]));
-//     scoresPage.textContent = '';
-//     scoresList.value = '';
-//     userScores.forEach(userScores => {
-//         let createScoreP = document.createElement('p');
+//Go Back
+function goBackToStart() {
+    quizIntro.classList.remove('hide');
+    scoresPage.classList.add('hide');
 
-//         createScoreP.textContent = userScores;
-//         userScores.appendChild(createScoreP);
-//     })
-// }
-    // storedHighScores();
-    // renderHighScores();
-
-    //Go Back
-    function goBackToStart() {
-        quizIntro.classList.remove('hide');
-        scoresPage.classList.add('hide');
-
-        while (showFinishedScreen.firstChild) {
-            showFinishedScreen.removeChild(showFinishedScreen.firstChild);
-        }
-        while (scoresList.firstChild) {
-            scoresList.removeChild(scoresList.firstChild);
-        }
-        timeLeft = 60;
-        timerEl.textContent = "Time Left: " + timeLeft + " seconds";
-
-        goBack.addEventListener('click', goBackToStart);
+    while (showFinishedScreen.firstChild) {
+        showFinishedScreen.removeChild(showFinishedScreen.firstChild);
     }
+    while (scoresList.firstChild) {
+        scoresList.removeChild(scoresList.firstChild);
+    }
+    timeLeft = 60;
+    timerEl.textContent = "Time Left: " + timeLeft + " seconds";
+
+    goBack.addEventListener('click', goBackToStart);
+}
