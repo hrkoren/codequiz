@@ -238,16 +238,17 @@ submitBtnEl.addEventListener('click', storeScores);
 //Go Back
 function goBackToStart() {
     quizIntro.classList.remove('hide');
-    scoresPage.classList.add('hide');
+    scoresList.classList.add('hide');
+    highScores.classList.add('hide');
 
-    while (showFinishedScreen.firstChild) {
-        showFinishedScreen.removeChild(showFinishedScreen.firstChild);
-    }
-    while (scoresList.firstChild) {
-        scoresList.removeChild(scoresList.firstChild);
-    }
+    // while (showFinishedScreen.firstChild) {
+    //     showFinishedScreen.removeChild(showFinishedScreen.firstChild);
+    // }
+    // while (scoresList.firstChild) {
+    //     scoresList.removeChild(scoresList.firstChild);
     timeLeft = 60;
     timerEl.textContent = "Time Left: " + timeLeft + " seconds";
+    }
+    
 
-    goBack.addEventListener('click', goBackToStart);
-}
+goBack.addEventListener('click', goBackToStart);
