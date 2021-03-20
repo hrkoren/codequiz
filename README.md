@@ -8,7 +8,8 @@ Go to [the quiz](https://hrkoren.github.io/codequiz/) to check it out and test y
 
 ## Usage
 
-![Image of code quiz](assets/images/codingquiz.PNG)
+![Image of code quiz](assets/images/CodeQuiz1.PNG) ![Image of code quiz](assets/images/CodeQuiz2.PNG)
+![Image of code quiz](assets/images/CodeQuiz3.PNG)
 
 Follow the steps below to test your knowledge
 1. Click on the [URL](https://hrkoren.github.io/codequiz) to open the site.

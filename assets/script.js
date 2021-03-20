@@ -12,7 +12,6 @@ const submitBtnEl = document.querySelector('#submitBtn');
 const userInitials = document.querySelector('#enterInitials');
 const scoresPage = document.querySelector('#highScores');
 const scoresList = document.querySelector('#submittedScores');
-// const clearScoresBtn = document.getElementById('#clearScores');
 const viewScores = document.querySelector('#viewHighScores');
 const goBack = document.querySelector('#goBack');
 let currentQuestion;
