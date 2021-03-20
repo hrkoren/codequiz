@@ -144,7 +144,7 @@ function showFinishedScreen() {
     const showScore = document.createElement('p');
     showScore.innerHTML = "You scored " + (score + timeLeft);
     finalScore.appendChild(showScore);
-    localStorage.setItem('highScores', JSON.stringify([{ Initials: 'userInitials', Score: 'score' }]));
+    // localStorage.setItem('highScores', JSON.stringify([{ Initials: 'userInitials', Score: 'score' }]));
 }
 
 
@@ -152,19 +152,20 @@ let initials;
 // let score = score;
 // getItem 'highScores'
 // highScores = JSON.parse(localStorage.getItem('highScores', 'value'))
-function saveScore() {
-    let finalScore = JSON.parse(localStorage.getItem('highScores')) || [];
-    finalScore.push(userScores);
-    localStorage.setItem('highScores', JSON.stringify([{ Initials: 'userInitials', Score: 'score' }]));
-    scoresPage.textContent = '';
-    scoresList.value = '';
-    userScores.forEach(userScores => {
-        let createScoreP = document.createElement('p');
+// function saveScore() {
+//     console.log('pizza');
+//     let finalScore = JSON.parse(localStorage.getItem('highScores')) || [];
+//     finalScore.push({ Initials: userInitials, Score: finalScore });
+//     localStorage.setItem('highScores', JSON.stringify(finalScore));
+//     scoresPage.textContent = '';
+//     scoresList.value = '';
+//     userScores.forEach(userScores => {
+//         let createScoreP = document.createElement('p');
 
-        createScoreP.textContent = userScores;
-        userScores.appendChild(createScoreP);
-    })
-}
+//         createScoreP.textContent = userScores;
+//         userScores.appendChild(createScoreP);
+//     })
+// }
 
 // stringify array
 // setItem 'highScores'
@@ -183,41 +184,53 @@ function saveScore() {
 // let storedHighScores;
 // let highScoreText;
 
-function showScoresPage(event) {
+function storeScores(event) {
     event.preventDefault();
+    console.log('showScore');
     finished.classList.add('hide');
     scoresList.classList.remove('hide');
     //looks in local storage for a stored array, if none exists, it creates one
     let finalScore = JSON.parse(localStorage.getItem('highScores')) || [];
-    finalScore.push(userScores);
-    //grab user's entered initials and score and sets to local storage
+    finalScore.push({ Initials: userInitials.value, Score: score });
+    localStorage.setItem('highScores', JSON.stringify(finalScore));
     scoresPage.textContent = '';
     scoresList.value = '';
-    //creates list of highscores on the highscores page
-    userScores.forEach(userScores => {
-        scoresPage = document.createElement('div');
-        let createScoreP = document.createElement('p')
-        createScoreP.textContent = userScores;
-        userScores.appendChild(createScoreP);
-
-        scoresPage.push({ userInitials: score });
-        userInitials.value = '';
-    });
-    // scoresList.append(finalScore);
 
     //storing scores to high scores page after submit
-    submitBtnEl.addEventListener('click', showScoresPage);
-
-
 }
-viewScores.addEventListener('click', function (event) {
-    showScoresPage(event);
+
+function showHighScores () {
+
+    //look at localstorege for high schoore and parse array
+    //for each array element create p tag and add values and score
+    let userScores = JSON.parse(localStorage.getItem('highScores')) || [];
+    
+  userScores.forEach(score => {
+ 
+        let createScoreP = document.createElement('p');
+//fix concat value
+        createScoreP.textContent = score.Initials + ' ' + score.Score;
+        console.log(createScoreP);
+        scoresList.appendChild(createScoreP);
+    })
+    highScores.classList.remove('hide');
+    scoresList.classList.remove('hide');
     quizIntro.classList.add('hide');
     questionBox.classList.add('hide');
     finished.classList.add('hide');
-    clearInterval(timeInterval);
+}
+
+viewScores.addEventListener('click', function (event) {
+    event.preventDefault();
+    showHighScores();
+    
+    // quizIntro.classList.add('hide');
+    // questionBox.classList.add('hide');
+    // finished.classList.add('hide');
+    // clearInterval(timeInterval);
 });
 
+submitBtnEl.addEventListener('click', storeScores);
 // 
 // storedHighScores();
 // renderHighScores();

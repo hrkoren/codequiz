@@ -93,6 +93,11 @@ main {
     margin-top: 20px;
 }
 
+#submittedScores p {
+    border: 1px solid var(--blue);
+    display: flex;
+}
+
 .buttonBox {
     display: flex;
     justify-content: space-evenly;
